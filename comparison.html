@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Сравнение регионов — Экология Брянской области</title>
+    <meta name="description" content="Сравнительный анализ экологических показателей Брянской области с соседними регионами ЦФО." />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand">
+                <div class="logo" aria-hidden="true">🌿</div>
+                <div>
+                    <h1>Экология Брянской области</h1>
+                    <p class="tagline">Аналитика · Карта · Сравнение · Новости</p>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="index.html#overview">Обзор</a>
+                <a href="index.html#air">Воздух</a>
+                <a href="index.html#water">Вода</a>
+                <a href="index.html#pollution">Загрязнения</a>
+                <a href="index.html#emitters">Предприятия</a>
+                <a href="index.html#map">Карта</a>
+                <a href="comparison.html" class="cta" aria-current="page">Сравнение</a>
+                <a href="news.html">Новости</a>
+                <button id="themeToggle" class="btn btn-secondary" aria-label="Переключить тему">🌓</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section hero reveal">
+            <div class="container">
+                <h2><span class="icon icon-alert" aria-hidden="true">📊</span> Сравнение с соседними регионами</h2>
+                <p class="lead" style="max-width: 800px; margin: 0 auto;">
+                    Детальный сравнительный анализ экологических показателей Брянской области с Орловской, Курской, Калужской, Смоленской, Белгородской областями и другими регионами Центрального федерального округа. Данные включают качество воздуха, состояние водных ресурсов, объёмы выбросов и переработку отходов.
+                </p>
+            </div>
+        </section>
+
+        <section class="section reveal">
+            <div class="container">
+                <h2>Ключевые показатели</h2>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Индекс качества воздуха (AQI)</h3>
+                        <p class="muted" style="margin-bottom: 16px;">Среднегодовой индекс качества атмосферного воздуха по регионам. Чем ниже значение, тем лучше качество воздуха.</p>
+                        <canvas id="comparisonAirChart" height="120"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>Индекс качества воды</h3>
+                        <p class="muted" style="margin-bottom: 16px;">Комплексный показатель состояния поверхностных водных объектов, включающий мутность, содержание нитратов, БПК5, pH и другие параметры.</p>
+                        <canvas id="comparisonWaterChart" height="120"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal">
+            <div class="container">
+                <h2>Объёмы выбросов и переработка отходов</h2>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Объём выбросов загрязняющих веществ</h3>
+                        <p class="muted" style="margin-bottom: 16px;">Общий объём выбросов в атмосферу от стационарных источников (тыс. тонн в год).</p>
+                        <canvas id="comparisonEmissionsChart" height="120"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>Доля переработанных отходов</h3>
+                        <p class="muted" style="margin-bottom: 16px;">Процент отходов, направленных на переработку и утилизацию от общего объёма образованных отходов.</p>
+                        <canvas id="comparisonWasteChart" height="120"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal">
+            <div class="container">
+                <h2>Детальное сравнение по загрязнителям</h2>
+                <div class="card">
+                    <h3>Концентрации основных загрязнителей воздуха</h3>
+                    <p class="muted" style="margin-bottom: 16px;">Средние концентрации PM2.5, PM10, NO₂ и SO₂ в атмосферном воздухе (мкг/м³).</p>
+                    <canvas id="comparisonPollutantsChart" height="100"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal">
+            <div class="container">
+                <h2>Сводная таблица показателей</h2>
+                <div class="card">
+                    <p class="muted" style="margin-bottom: 16px;">Полная таблица экологических показателей по всем сравниваемым регионам. Брянская область выделена зелёным цветом.</p>
+                    <div class="comparison-table-wrapper">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Регион</th>
+                                    <th>AQI (воздух)</th>
+                                    <th>Индекс воды</th>
+                                    <th>Выбросы (тыс. т/год)</th>
+                                    <th>Обработка отходов (%)</th>
+                                    <th>PM2.5 (мкг/м³)</th>
+                                    <th>PM10 (мкг/м³)</th>
+                                    <th>NO₂ (мкг/м³)</th>
+                                    <th>Лесной фонд (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparisonTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal">
+            <div class="container">
+                <h2>Аналитические выводы</h2>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Сильные стороны Брянской области</h3>
+                        <ul class="checklist">
+                            <li>Относительно стабильный индекс качества воды (70 баллов)</li>
+                            <li>Средний уровень выбросов по сравнению с соседними регионами</li>
+                            <li>Развитая система мониторинга экологической обстановки</li>
+                            <li>Активная работа по озеленению территорий</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Области для улучшения</h3>
+                        <ul class="checklist">
+                            <li>Повышение доли переработки отходов (сейчас 32%, целевой показатель 50%+)</li>
+                            <li>Снижение концентраций PM2.5 и PM10 в промышленных зонах</li>
+                            <li>Модернизация очистных сооружений для улучшения качества воды</li>
+                            <li>Внедрение наилучших доступных технологий на предприятиях</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal">
+            <div class="container">
+                <h2>Рейтинг регионов</h2>
+                <div class="card">
+                    <p class="muted" style="margin-bottom: 20px;">Общий экологический рейтинг регионов на основе комплексной оценки всех показателей (чем выше балл, тем лучше экологическая ситуация).</p>
+                    <canvas id="comparisonRankingChart" height="100"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div>
+                © <span id="year"></span> Экология Брянской области. Проект сделан Харьковой Софией.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- App -->
+    <script src="assets/js/comparison.js"></script>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
+
