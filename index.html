@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Экология Брянской области</title>
+    <meta name="description" content="Экологическое состояние Брянской области: воздух, вода, загрязнения, карта и рекомендации." />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand">
+                <div class="logo" aria-hidden="true">🌿</div>
+                <div>
+                    <h1>Экология Брянской области</h1>
+                    <p class="tagline">Воздух · Вода  · Карта · Решения · Новости</p>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="#overview">Обзор</a>
+                <a href="#air">Воздух</a>
+                <a href="#water">Вода</a>
+                <a href="#pollution">Загрязнения</a>
+                <a href="#emitters">Предприятия</a>
+                <a href="#map">Карта</a>
+                <a href="comparison.html">Сравнение</a>
+                <a href="news.html" class="cta">Новости</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="overview" class="section hero reveal">
+            <div class="container grid-2">
+                <div>
+                    <h2><span class="icon icon-leaf" aria-hidden="true">🌿</span> Экологический профиль региона</h2>
+                    <p>
+                        На этой странице собраны ключевые показатели состояния окружающей среды в Брянской области: 
+                        качество атмосферного воздуха, состояние воды, потенциально загрязнённые зоны, а также 
+                        интерактивная карта чистых и проблемных мест. Ниже представлены диаграммы и аналитика.
+                    </p>
+                    <ul class="highlights">
+                        <li><strong>Актуальная карта</strong> чистых и загрязнённых локаций</li>
+                        <li><strong>Графики</strong> качества воздуха и воды</li>
+                        <li><strong>Рекомендации</strong> по улучшению экологии</li>
+	     <li><strong>Новости</strong> самые актуальные</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="card kpi">
+                        <h3>Ключевые показатели</h3>
+                        <div class="kpi-grid">
+                            <div class="kpi-item">
+                                <div class="kpi-value" id="kpi-air">—</div>
+                                <div class="kpi-label">Индекс качества воздуха (AQI)</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-value" id="kpi-water">—</div>
+                                <div class="kpi-label">Индекс качества воды</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-value" id="kpi-clean">—</div>
+                                <div class="kpi-label">Чистых локаций</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-value" id="kpi-dirty">—</div>
+                                <div class="kpi-label">Проблемных локаций</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="air" class="section reveal">
+            <div class="container">
+                <h2><span class="icon icon-wind" aria-hidden="true">💨</span> Качество атмосферного воздуха</h2>
+                <p>
+                    Ниже приведена динамика усреднённых концентраций основных загрязнителей: PM2.5, PM10, NO₂, SO₂.
+                    Данные демонстрационные и могут быть заменены официальными.
+                </p>
+                <div class="card">
+                    <canvas id="airChart" height="110"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="water" class="section reveal">
+            <div class="container">
+                <h2><span class="icon icon-water" aria-hidden="true">💧</span> Состояние поверхностных вод</h2>
+                <p>
+                    Показатели качества воды включают мутность, содержание нитратов, БПК5 и др. 
+                    Диаграмма отражает относительные значения по выборке пунктов наблюдения.
+                </p>
+                <div class="card">
+                    <canvas id="waterChart" height="110"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="pollution" class="section reveal">
+            <div class="container">
+                <h2><span class="icon icon-alert" aria-hidden="true">⚠️</span> Потенциально загрязнённые территории</h2>
+                <div class="card">
+                    <ul id="pollutionList" class="pollution-list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="emitters" class="section reveal">
+            <div class="container">
+                <h2><span class="icon icon-alert" aria-hidden="true">🏭</span> Предприятия и вклад в загрязнение</h2>
+                <p>Демонстрационные данные: доля вклада предприятия в общий объём выбросов, %.</p>
+                <div class="grid-2">
+                    <div class="card">
+                        <canvas id="emittersChart" height="120"></canvas>
+                    </div>
+                    <div class="card">
+                        <ul id="emittersList" class="emitters-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="map" class="section reveal">
+            <div class="container">
+                <h2><span class="icon icon-map" aria-hidden="true">📍</span> Карта чистых и проблемных мест</h2>
+                <p>Используйте переключатели слоёв на карте, чтобы отобразить интересующие точки.</p>
+                <div id="mapContainer" class="map"></div>
+
+                <div class="filters card">
+                    <div class="filters-row">
+                        <label>
+                            <input type="checkbox" id="toggleClean" checked />
+                            Показывать чистые локации
+                        </label>
+                        <label>
+                            <input type="checkbox" id="toggleDirty" checked />
+                            Показывать проблемные локации
+                        </label>
+                        <label>
+                            <input type="checkbox" id="toggleClusters" checked />
+                            Кластеры
+                        </label>
+                        <label>
+                            <input type="checkbox" id="toggleHeat" />
+                            Тепловая карта
+                        </label>
+                        <button id="btnAddPoint" class="btn">Добавить точку кликом</button>
+                    </div>
+                </div>
+
+                <!-- Модальное окно для добавления метки -->
+                <div id="markerModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Добавить метку на карте</h3>
+                            <button class="modal-close" id="modalClose">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Тип точки</label>
+                                <select id="markerType" class="form-input">
+                                    <option value="clean">Чистая локация</option>
+                                    <option value="dirty">Проблемная локация</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Название <span style="color: var(--danger);">*</span></label>
+                                <input type="text" id="markerName" class="form-input" placeholder="Введите название локации" required />
+                            </div>
+                            <div class="form-group" id="markerNoteGroup">
+                                <label>Примечание</label>
+                                <input type="text" id="markerNote" class="form-input" placeholder="Опционально" />
+                            </div>
+                            <div class="form-group" id="markerSeverityGroup" style="display:none;">
+                                <label>Степень загрязнения</label>
+                                <select id="markerSeverity" class="form-input">
+                                    <option value="низкая">Низкая</option>
+                                    <option value="средняя" selected>Средняя</option>
+                                    <option value="высокая">Высокая</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="markerPollutantGroup" style="display:none;">
+                                <label>Загрязнитель</label>
+                                <input type="text" id="markerPollutant" class="form-input" placeholder="Например: PM10, NO₂" />
+                            </div>
+                            <div class="modal-footer">
+                                <button id="markerCancel" class="btn btn-secondary">Отмена</button>
+                                <button id="markerSubmit" class="btn">Добавить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="actions" class="section reveal">
+            <div class="container">
+                <h2><span class="icon icon-idea" aria-hidden="true">💡</span> Предложения по улучшению экологии</h2>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Краткосрочные меры</h3>
+                        <ul class="checklist">
+                            <li>Развернуть <strong>сетку датчиков PM2.5/PM10</strong> в Брянске и в Брянской области</li>
+                            <li>Внедрить <strong>общественный мониторинг сбросов</strong> с фотофиксацией и обратной связью</li>
+                            <li>Усилить <strong>контроль открытого горения</strong> (сухая трава, свалки)</li>
+                            <li>Организовать <strong>раздельный сбор отходов</strong> в школах и госучреждениях</li>
+                            <li>Озеленение улиц: высадка деревьев, приоритет — транспортные магистрали</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Долгосрочные меры</h3>
+                        <ul class="checklist">
+                            <li>Модернизация <strong>очистных сооружений</strong> и водозаборов</li>
+                            <li>Переход промпредприятий на <strong>наилучшие доступные технологии</strong></li>
+                            <li>Развитие <strong>общественного транспорта</strong> и инфраструктуры для велосипедов</li>
+                            <li>Создание <strong>зеленых коридоров</strong> и защитных лесополос</li>
+                            <li>Экопросвещение и <strong>поддержка граждан,желающих помогать,</strong>так же для локальных экопроектов</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div>
+                © <span id="year"></span> Экология Брянской области. Проект сделан Харьковой Софией.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- App -->
+    <script src="assets/js/app.js"></script>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
+
+
